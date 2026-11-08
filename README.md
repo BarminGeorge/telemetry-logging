@@ -212,3 +212,23 @@ public void OnGet()
 Запусти приложение, открой главную, после чего убедись с помощью поиска в Kibana, что твой лог записался.
 Проверь, что среди свойств записи есть поле MyName со значением, которое было задано в переменной `myName`.
 Так добавляются новые свойства в логи.
+
+### 4. OpenTelemetry
+Теперь посмотрим на то, как отправлять логи централизованно в трубу в OpenTelemetry.
+Подключи пакеты
+```
+dotnet add package OpenTelemetry.Exporter.Console
+dotnet add package OpenTelemetry.Extensions.Hosting
+```
+
+Добавь в Program.cs код
+```cs
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(r => r.AddService("<ВАШЕ_НАЗВАНИЕ_ПРИЛОЖЕНИЯ>"))
+    .WithLogging()
+    .UseOtlpExporter();
+```
+
+Переменные окружения возьми с предыдущего занятия, ServiceName тоже задай свой.
+
+Отключи Serilog, запусти приложение, открой https://fiit-backend-telemetry.duckdns.org, создай новый дашборд, в качестве источника выбери Loki и посмотри логи.
