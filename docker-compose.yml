@@ -75,9 +75,9 @@ services:
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
     ports:
       - 5044:5044
-      - 50000:50000/tcp
-      - 50000:50000/udp
-      - 9600:9600
+      - ${LOGSTASH_INPUT_PORT:-5000}:50000/tcp
+      - ${LOGSTASH_INPUT_PORT:-5000}:50000/udp
+      - ${LOGSTASH_API_PORT:-9601}:9600
     environment:
       LS_JAVA_OPTS: -Xms256m -Xmx256m
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
