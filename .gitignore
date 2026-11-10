@@ -233,3 +233,6 @@ _Pvt_Extensions
 
 .idea
 .vscode
+
+# Local Serilog output
+.logs/
