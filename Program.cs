@@ -3,6 +3,8 @@ using Elastic.Ingest.Elasticsearch;
 using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
 using Elastic.Transport;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -36,6 +38,11 @@ try
         .CreateLogger();
 
     builder.Services.AddSerilog(Log.Logger);
+    
+    builder.Services.AddOpenTelemetry()
+        .ConfigureResource(r => r.AddService("GeorgeService"))
+        .WithLogging()
+        .UseOtlpExporter();
 
     // Add services to the container.
     builder.Services.AddRazorPages();
